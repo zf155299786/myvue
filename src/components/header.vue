@@ -1,9 +1,11 @@
 <template>
-	<div class="navbar">
+	<div id="navbar">
 		<div class="navbar-inner">
 			
 			<div class="brand">
-				<img src="../assets/cnodejs_light.svg" alt="">
+				<router-link to="/">
+					<img src="../assets/cnodejs_light.svg" alt="">
+				</router-link>
 			</div>
 			<form action="/search" class="navbar-search">
 				<input type="search">
@@ -37,7 +39,7 @@
 </script>
 
 <style scoped lang="scss">
-	.navbar{
+	#navbar{
 		width:100%;
 		background:#444;
 		.navbar-inner{

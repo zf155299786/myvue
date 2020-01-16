@@ -1,6 +1,6 @@
 <template>
 	<div class="aside-content">
-		
+		侧边信息栏
 	</div>
 </template>
 

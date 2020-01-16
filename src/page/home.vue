@@ -1,7 +1,7 @@
 <template>
-	<div class="home-content">
+	<div id="home-content">
 		<Header></Header>
-		<div class="main">
+		<div id="main">
 			<Aside></Aside>
 			<div id="content">
 				<div class="panel">
@@ -30,18 +30,9 @@
 								<img :src="item.author.avatar_url" alt="" :title="item.author.loginname">
 								<span>{{item.last_reply_at|dateFormat}}</span>
 							</a>
-
 						</div>
 					</div>
-					<div class="pagination">
-						<ul>
-							<li>«</li>
-							<li v-for="(item,index) in showPage" :key="index" @click="goNum($event,index)">{{item}}</li>
-							
-							<li>»</li>
-						</ul>
-
-					</div>
+					<Pagination :pageCount="pageCount" :pageNowParent="pageNow" :tab="tab"></Pagination>
 				</div>
 			</div>
 		</div>
@@ -53,14 +44,14 @@
 	import Header from "@/components/header"
 	import Footer from "@/components/footer"
 	import Aside from "@/components/aside"
+	import Pagination from "@/components/pagination"
 	export default {
 		data () {
 			return {
 				topicList:[], //数据列表
 				pageCount:40,  //数据的总页数
-				showPage:[1,2,3,4,5], //显示的页码
 				pageNow:1,    //当前的页码
-				tab:"all"
+				tab:"all"    //文章的分类
 			}
 		},
 		mounted(){
@@ -68,40 +59,27 @@
 		},
 		beforeRouteUpdate (to, from, next) {   
     	// 同一页面，刷新不同数据时调用，
-    		this.pageNow=to.query.page;
-    		this.tab=to.query.tab;
-			this.getData(this.pageNow,this.tab); 
-		   next();
-		},
-		methods:{
-			getData(page,tab){   //获取数据
-				this.$http.get('https://cnodejs.org/api/v1/topics',{
-					params:{
-						tab,
+    	this.pageNow=to.query.page;
+    	this.tab=to.query.tab;
+    	this.getData(this.pageNow,this.tab); 
+    	next();
+    },
+    methods:{
+    	 	//获取数据
+    	 	getData(page,tab){  
+    	 		this.$http.get('https://cnodejs.org/api/v1/topics',{
+    	 			params:{
+						tab, //分类
 						page //当前页码
 					}
 				}).then(res=>{
-					console.log(res.data.data)
 					this.topicList=res.data.data;
-					// console.log(this.topicList);
 				})
-			},
-			goNum(event,index){    //页码跳转
-				this.pageNow=event.target.innerHTML;//当前点击的页数
-							//跳向这个路由,并把页码传递过去
-				this.$router.push({path:"/",query:{page:this.pageNow,tab:this.tab}});
-
-				//页码动态改变
-				// this.pageNow=event.target.innerHTML;//当前点击的页数
-				// if(index==3&&this.pageNow<39){
-				// 	this.showPage.forEach((n,i)=>{
-				// 		this.$set(this.showPage,i,n+=1);
-				// 	})
-				// }
 			}
 		},
 		filters:{
-			dateFormat(val){  //时间格式化
+			//时间格式化
+			dateFormat(val){  
 				let dateNow=new Date();   //现在时间
 				let dateOld=new Date(val);	//修改时间
 				let format=dateNow-dateOld;  //时间差
@@ -141,13 +119,14 @@
 		components:{
 			Header,
 			Footer,
-			Aside
+			Aside,
+			Pagination
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-.main{
+#main{
 	&:after{display: block;clear: both;content:"";}
 	width:90%;
 	margin:15px auto;
@@ -224,6 +203,7 @@
 						border-radius:3px;
 						font-size:12px;
 					}
+					//设置文字
 					.t{
 						white-space:nowrap;
 						overflow: hidden;
@@ -233,40 +213,24 @@
 						margin-left:2px;
 						margin-right:50px;
 						&:hover{text-decoration:underline;}
-						}//设置文字
-					}
-					.pull-right{
-						display: flex;
-						align-items: center;
-						min-width:70px;
-						justify-content:space-between;
-						color: #778087;
-						img{
-							width: 18px;
-							height: 18px;
-						}
-						span{
-							font-size:11px;
-						}
 					}
 				}
-			}
-			.pagination{
-				margin: 10px 0 0 10px;
-				ul{
-					margin: 0;
-					padding: 0;
-					list-style: none;
-					&:after{display: block;clear: both;content:"";}
-					li{
-						color:#999;
-						padding: 4px 12px;
-						line-height: 20px;
-						border:1px solid #ddd;
-						float: left;
+				.pull-right{
+					display: flex;
+					align-items: center;
+					min-width:70px;
+					justify-content:space-between;
+					color: #778087;
+					img{
+						width: 18px;
+						height: 18px;
+					}
+					span{
+						font-size:11px;
 					}
 				}
 			}
 		}
 	}
+}
 </style>
