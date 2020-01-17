@@ -1,12 +1,14 @@
 <template>
 	<div class="api-content">
 		<Header></Header>
-	API
+		API
+		<Footer></Footer>
 	</div>
 </template>
 
 <script>
 	import Header from "@/components/header"
+	import Footer from "@/components/footer"	
 	export default {
 		data () {
 			return {
@@ -14,14 +16,17 @@
 			}
 		},
 		methods:{
-
+			
 		},
-		components:{
-			Header
+		components:{	
+			Header,
+			Footer
 		}
 	}
 </script>
 
 <style>
-
+div{
+	color:red;
+}
 </style>

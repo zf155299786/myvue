@@ -1,11 +1,9 @@
 <template>
-	
-	<div class="about-content">
+	<div >
 		<Header></Header>
-		关于
+		提交话题（未完）
 		<Footer></Footer>
 	</div>
-	
 </template>
 
 <script>
@@ -30,3 +28,4 @@
 <style>
 
 </style>
+		

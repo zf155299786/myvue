@@ -73,7 +73,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .pagination{
 	margin: 10px 0 0 10px;
 	ul{

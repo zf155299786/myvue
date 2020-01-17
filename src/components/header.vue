@@ -16,8 +16,9 @@
 					<li><router-link to="/getstart">新手入门</router-link></li>
 					<li><router-link to="/api">API</router-link></li>
 					<li><router-link to="/about">关于</router-link></li>
-					<li><router-link to="/login">注册</router-link></li>
-					<li><router-link to="/signin">登录</router-link></li>
+					<li><router-link to="/login">注册</router-link></li><li v-if="flag"><a href="javascript:;" @click="signout">退出</a></li>
+					<li v-else><router-link to="/signin">登录</router-link></li>
+					
 				</ul>
 			</div>
 		</div>	
@@ -26,19 +27,32 @@
 </template>
 
 <script>
+	import {getStorage} from "@/fetch"
 	export default {
 		data () {
 			return {
-
+				login_state:false  //登录状态
+			}
+		},
+		computed:{
+			flag(){
+				let msg=getStorage('msg');
+				msg?this.login_state=msg.isLogin:this.login_state=false;
+				return this.login_state;
 			}
 		},
 		methods:{
-
+			signout(){
+				sessionStorage.removeItem('msg');
+				this.login_state=false;
+				this.$router.push('/');
+				this.$router.go(0);
+			}
 		}
 	}
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 	#navbar{
 		width:100%;
 		background:#444;
